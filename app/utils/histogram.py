@@ -56,4 +56,4 @@ def histogram(line_count, percent, name_text, full_name=None):
                  (int(x - line_width), int(height - len(name_text[i - 1]) * 25.3)),  vert_text)  # pasting rotated text
         #                                           ^ subtracting text length to get a start of pasted pattern
 
-    im.save("app/media/img.png")
+    im.save("/tmp/img.png")

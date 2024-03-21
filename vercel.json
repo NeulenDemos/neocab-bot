@@ -1,0 +1,16 @@
+{
+  "env": {
+    "WEBHOOK_BASE_PATH": "/api/bot"
+  },
+  "routes": [
+    {
+      "src": "/api/bot",
+      "dest": "/api/bot.py"
+    },
+    {
+      "src": "/api/webhook",
+      "dest": "/api/webhook.py"
+    }
+  ],
+  "outputDirectory": "api"
+}

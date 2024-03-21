@@ -13,7 +13,8 @@ WEBAPP_PORT = env.int('WEBAPP_PORT', default=8080)
 SECRET_KEY = secrets.token_urlsafe(8)
 WEBHOOK_DOMAIN = env.str('WEBHOOK_DOMAIN', default='example.com')
 WEBHOOK_BASE_PATH = env.str('WEBHOOK_BASE_PATH', default="/webhook")
-WEBHOOK_PATH = f'{WEBHOOK_BASE_PATH}/{SECRET_KEY}'
+# WEBHOOK_PATH = f'{WEBHOOK_BASE_PATH}/{SECRET_KEY}'
+WEBHOOK_PATH = f'{WEBHOOK_BASE_PATH}'
 WEBHOOK_URL = f'https://{WEBHOOK_DOMAIN}{WEBHOOK_PATH}'
 
 MYSQL_HOST = env.str('MYSQL_HOST', default='localhost')

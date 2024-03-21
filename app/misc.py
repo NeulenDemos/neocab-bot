@@ -9,7 +9,7 @@ from app import config
 
 app_dir: Path = Path(__file__).parent.parent
 locales_dir = app_dir / "locales"
-temp_dir = app_dir / "temp"
+temp_dir = app_dir / "tmp"
 
 logging.basicConfig(level=logging.WARNING)
 i18n = I18nMiddleware('bot', locales_dir, default='ua')
@@ -34,8 +34,8 @@ buttons_ru_1 = ("ℹ Общая информация", "📕 Зачётная к
 buttons_en_1 = ("ℹ General info", "📕 Record book", "📊 Rating", "⚠ Debts", "📆 Class schedule", "📆 Sport schedule", "🗓 Syllabus", "➡ Next")
 buttons_ua_2 = ("💳 Оплати за навчання", "📄 Семестровий план", "🔍 Пошук студентів", "📨 Новини кафедри", "❓Підтримка", "🇺🇦 Мова", "⬅ Назад")
 buttons_ru_2 = ("💳 Оплаты за обучение", "📄 Семестровый план", "🔍 Поиск студентов", "📨 Новости кафедры", "❓Помощь", "🐷 Язык", "⬅ Назад­")
-buttons_en_2 = ("💳 Tuition fees", "📄 Semester plan", "🔍 Student search", "📨 Cathedra news", "❓Help", "🇬🇧 Language", "⬅ Back")
-sign_in_butt = "👥 Увійти в кабінет"
+buttons_en_2 = ("💳 Tuition fees", "📄 Semester plan", "🔍 Student search", "📨 Department news", "❓Help", "🇬🇧 Language", "⬅ Back")
+sign_in_butt = "👥 Sign in"
 req_err_msg = "😔 Не вдалося виконати запит, спробуйте пізніше"
 auth_err_msg = "Помилка аутентифікації, повторіть спробу входу"
 greetings_text = "*Введіть email і пароль від особистого кабінету*\n\nНаприклад:\ndemo@gmail.com d2v8F3"

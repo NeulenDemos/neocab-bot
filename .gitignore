@@ -6,4 +6,4 @@ temp/
 test/
 nohup.out
 /app/media/img.png
-*.mo
+#*.mo

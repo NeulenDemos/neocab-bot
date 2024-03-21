@@ -6,7 +6,8 @@ from aiogram import types
 from aiogram.utils import exceptions, callback_data, helper
 from app import misc
 from app.misc import i18n, __
-from app.utils.database_connection import DatabaseConnection
+# from app.utils.database_connection import DatabaseConnection
+from app.utils import emulator
 
 
 class Student:
@@ -145,6 +146,10 @@ def generate_inline_keyboard(page, count, row=3):
 
 
 async def api_request(message=None, params=None, url=misc.api_cab):
+    # DEMO START
+    return emulator.get(url, params=params)
+    # DEMO END
+
     response = req_post(url, params=params)
     if not response:
         if message:
@@ -156,11 +161,17 @@ async def api_request(message=None, params=None, url=misc.api_cab):
 
 async def reg_key(message):
     key = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=1)
-    key.add(misc.sign_in_butt, misc.buttons_ua_2[4])
-    await message.answer("Щоб продовжити натисніть на одну з кнопок", reply_markup=key)
+    key.add(misc.sign_in_butt, misc.buttons_en_2[4])
+    await message.answer("Press one of the buttons to continue", reply_markup=key)
 
 
 async def authentication(message, first=False, skip=False):
+    # DEMO START
+    if first:
+        await message.answer('Welcome', reply_markup=reply_keyboard(Keyboards.EN_1))
+    return Student(emulator.student)
+    # DEMO END
+
     findQuery = "SELECT mail, pass, stud_id, lang, group_id, faculty FROM users WHERE user_id=(%s)"
     with DatabaseConnection() as db:
         conn, cursor = db

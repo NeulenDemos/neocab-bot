@@ -6,7 +6,7 @@ from app import config, misc
 from app.misc import bot, dp, temp_dir
 from app.utils.my_utils import *
 from app.utils import histogram
-from app.utils.database_connection import DatabaseConnection
+# from app.utils.database_connection import DatabaseConnection
 
 from aiogram import executor, types
 from aiogram.dispatcher import FSMContext
@@ -326,7 +326,12 @@ async def page_6(message, student: Student, api_data: list):
 @auth_student
 async def page_academic_schedule(message, week_num, student: Student):
     week = '' if week_num == 1 else '2'
-    api_data = await api_request(message, url=f'{misc.api_sched}{week}/{student.group_id}')
+    # api_data = await api_request(message, url=f'{misc.api_sched}{week}/{student.group_id}')
+
+    # DEMO START
+    api_data = await api_request(message, url=f'{misc.api_sched}')
+    # DEMO END
+
     if api_data is None: return
     if not api_data:
         await message.answer(student.text('not_found'))
@@ -384,14 +389,19 @@ async def get_sport_schedule(message, sport_id, student: Student, api_data: list
 
 @auth_student
 async def send_pdf(message, student: Student):
-    url = f'{misc.api_doc}?email={student.mail}&pass={student.password}'
     try:
-        await bot.send_document(message.chat.id, url)
+        with open('doc.pdf', 'rb') as f:
+            await bot.send_document(message.chat.id, f)
     except (exceptions.WrongFileIdentifier, exceptions.InvalidHTTPUrlContent):
         await message.answer(student.text('not_found'))
 
 
 async def change_lang(message, lang):
+    # DEMO START
+    await message.answer("Demo mode, only english")
+    return
+    # DEMO END
+
     changeQuery = f"UPDATE users SET lang=(%s) WHERE user_id=(%s)"
     with DatabaseConnection() as db:
         conn, cursor = db
@@ -481,8 +491,8 @@ async def send_histogram_of_page_2(message, sem, student: Student, api_data: lis
         count += 1
     answer = await api_request(message, {'email': student.mail, 'pass': student.password, 'page': 1})
     if answer is None: return
-    histogram.histogram(count, score, subject, "{fam} {imya}\n{otch}".format(**answer[0]))
-    with open("app/media/img.png", "rb") as f:
+    histogram.histogram(count, score, subject, "{imya} {fam}\n{otch}".format(**answer[0]))
+    with open("/tmp/img.png", "rb") as f:
         img = f.read()
     await bot.send_photo(message.chat.id, img)
 
@@ -498,7 +508,7 @@ async def send_histogram_of_page_4(message, sem, student: Student, api_data: lis
         subject.append(n['subject'])
         count += 1
     histogram.histogram(count, score, subject, f"{misc.sem_name[student.lang]} {sem}")
-    with open("app/media/img.png", "rb") as f:
+    with open("/tmp/img.png", "rb") as f:
         img = f.read()
     await bot.send_photo(message.chat.id, img)
 
@@ -537,6 +547,12 @@ async def search_students(message):
 @auth_student
 async def handle_text(message: types.Message, state: FSMContext, student: Student):
     await state.finish()
+
+    # DEMO START
+    await message.answer("Demo mode, search is disabled")
+    return
+    # DEMO END
+
     selectByIdQuery = "SELECT mail, pass FROM users WHERE user_id=(%s)"
     selectByFNQuery = "SELECT mail, pass FROM users WHERE f_name=(%s) AND l_name=(%s) GROUP BY stud_id"
     if message.forward_date:
@@ -584,6 +600,11 @@ async def handle_text(message: types.Message, state: FSMContext, student: Studen
 
 @auth_student
 async def get_news(message, student: Student):
+    # DEMO START
+    await message.answer("Demo mode, news are disabled")
+    return
+    # DEMO END
+
     news = get_update_json(temp_dir/'news_texts.json', student.faculty)
     if not news:
         await message.answer(student.text('faculty_unsupported'))
